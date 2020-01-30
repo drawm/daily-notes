@@ -4,7 +4,7 @@ Daily-Notes
 Low tech note taking ~application~ scripts
 
 ### Requirements:
-Should work on most "standart" linux distro
+Should work on most "standard" linux distro
 * `git`
 * `date`
 * `awk`
@@ -41,7 +41,7 @@ Some sections are copied over to the next note you will create.
 * `Reminder`
 * `Keep`
 
-To create a sections, use the triple equal (`===`) delemiter under the section name.
+To create a section, use the triple equal (`===`) delemiter under the section name.
 
 
 #### Examples:
@@ -71,9 +71,9 @@ Sections are saved when you use `./end` to complete your notes for the day.
 ### Useful tips
 * To quickly open yesterday's note, simply run `./yesterday`
 * Same goes for tomorrow's note, simply run `./tomorrow`
-* To create a note without updating syncing your files, use `./new` 
+* To create a note without updating or syncing your files, use `./new` 
 * To open a note without creating a new file and adding sections to it, use `./open`
-* All scripts that open notes accepts a date as an argument to open the note file of that day.
+* All scripts that open notes accept a date as an argument to open the note file of that day.
     * `./open 'today'` (same as `./open`)
     * `./new 'last tuesday'`
     * `./tomorrow 'last sunday'` (kinda dumb but it works :shrug:)
