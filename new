@@ -1,0 +1,26 @@
+#!/bin/bash
+
+required_date="${1:-today}"
+
+formated_date="$( date -d "${required_date}" +'%Y-%m-%d' )"
+folderPath="./notes"
+filePath="${folderPath}/${formated_date}.md"
+
+if [ ! -d "${folderPath}"	]
+then
+	mkdir -p "${folderPath}"
+fi
+
+
+if [ ! -e $filePath	]
+then
+    # Create today's file based on template
+    cp .template.md "${filePath}"
+    ls -a | grep .section. | xargs cat >> "${filePath}"
+    ls -a | grep .section. | xargs rm
+fi
+
+
+echo "Editing file ${filePath}"
+$EDITOR "${filePath}"
+

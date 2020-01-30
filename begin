@@ -1,0 +1,7 @@
+#!/bin/bash
+
+./update
+
+document_date="${1:-today}"
+
+./new "${document_date}"
