@@ -1,0 +1,7 @@
+#!/bin/bash
+
+./sync
+
+document_date="$( date --date="yesterday" +'%Y-%m-%d' )"
+
+./open "${document_date}"

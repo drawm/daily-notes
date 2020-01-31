@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./update
+./sync
 
 document_date="${1:-today}"
 

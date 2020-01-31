@@ -1,0 +1,7 @@
+#!/bin/bash
+
+./sync
+
+document_date="${1:-tomorrow}"
+
+./open "${document_date}"

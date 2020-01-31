@@ -1,8 +1,10 @@
 #!/bin/bash
 
-today="$( date +'%Y-%m-%d' )"
+required_date="${1:-today}"
+
+formated_date="$( date -d "${required_date}" +'%Y-%m-%d' )"
 folderPath="./notes"
-filePath="$folderPath/$today.md"
+filePath="${folderPath}/${formated_date}.md"
 
 # Save section for next day
 ./scripts/saveSection.sh "${filePath}" "Todo" > .section.todo.md
@@ -18,7 +20,7 @@ git add .section.reminder.md
 git add .section.keep.md
 
 
-git add "$filePath" && git commit -F "$filePath" && git tag "$today"
+git add "${filePath}" && git commit -F "${filePath}" && git tag "${formated_date}"
 
 
 git push origin master
