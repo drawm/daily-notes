@@ -1,3 +1,12 @@
 #!/bin/bash
 
-git fetch origin && git rebase origin/master >> /dev/null
+initialLocation="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+rootFolder="$( cat "${initialLocation}/.noteFolderPath")"
+if [ -z $rootFolder ]; then
+  echo "Can't find root folder ${rootFolder}'', did you run note-setup?"
+  exit 1
+fi
+
+cd "${rootFolder}"
+git fetch origin && git rebase origin/master
+cd "${initialLocation}"

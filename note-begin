@@ -1,7 +1,9 @@
 #!/bin/bash
 
-./note-sync
+initialLocation="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+. ${initialLocation}/note-sync
 
 document_date="${1:-today}"
 
-./note-new "${document_date}"
+. ${initialLocation}/note-new "${document_date}"

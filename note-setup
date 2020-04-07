@@ -38,8 +38,12 @@ then
   exit 1
 fi
 
+# Save note folder location
 echo "Note folder is '${noteFolder}'"
 echo "${noteFolder}" > .noteFolderPath
+
+# Copy base template file
+cp "${rootFolder}/.template.md" "${noteFolder}/.template.md"
 
 echo 'Setup completed!'
 echo ''

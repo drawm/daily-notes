@@ -2,29 +2,31 @@
 
 required_date="${1:-today}"
 
-rootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-rootFolder="$( cat "${rootFolder}/.noteFolderPath")"
-if [ ! -z $rootFolder ]; then
+initialLocation="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+rootFolder="$(cat "${initialLocation}/.noteFolderPath")"
+if [ -z $rootFolder ]; then
   echo "Can't find root folder, did you run note-setup?"
   exit 1
 fi
 
 formated_date="$( date -d "${required_date}" +'%Y-%m-%d' )"
-folderPath="${rootFolder}/notes"
+noteFolderLocation="${rootFolder}/notes"
+filePath="${noteFolderLocation}/${formated_date}.md"
 
-filePath="${folderPath}/${formated_date}.md"
+
+cd "${rootFolder}"
 
 # Save section for next day
-./note-scripts/saveSection.sh "${filePath}" "Todo" > .section.todo.md
+. "${initialLocation}/scripts/saveSection.sh" "${filePath}" "Todo" > .section.todo.md
 git add .section.todo.md
 
-./note-scripts/saveSection.sh "${filePath}" "Tomorrow" > .section.tomorrow.md
+. "${initialLocation}/scripts/saveSection.sh" "${filePath}" "Tomorrow" > .section.tomorrow.md
 git add .section.tomorrow.md
 
-./note-scripts/saveSection.sh "${filePath}" "Reminder" > .section.reminder.md
+. "${initialLocation}/scripts/saveSection.sh" "${filePath}" "Reminder" > .section.reminder.md
 git add .section.reminder.md
 
-./note-scripts/saveSection.sh "${filePath}" "Keep" > .section.keep.md
+. "${initialLocation}/scripts/saveSection.sh" "${filePath}" "Keep" > .section.keep.md
 git add .section.keep.md
 
 
@@ -33,3 +35,4 @@ git add "${filePath}" && git commit -F "${filePath}" && git tag "${formated_date
 
 git push origin master
 
+cd "${initialLocation}"

@@ -4,29 +4,31 @@ required_date="${1:-today}"
 
 rootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 rootFolder="$( cat "${rootFolder}/.noteFolderPath")"
-if [ ! -z $rootFolder ]; then
-  echo "Can't find root folder, did you run note-setup?"
+if [ -z $rootFolder ]; then
+  echo "Can't find root folder '${rootFolder}', did you run note-setup?"
   exit 1
 fi
 
 formated_date="$( date -d "${required_date}" +'%Y-%m-%d' )"
-folderPath="${rootFolder}/notes"
+noteFolderLocation="${rootFolder}/notes"
 
-filePath="${folderPath}/${formated_date}.md"
+filePath="${noteFolderLocation}/${formated_date}.md"
 
-if [ ! -d "${folderPath}"	]
+if [ ! -d "${noteFolderLocation}"	]
 then
-	mkdir -p "${folderPath}"
+	mkdir -p "${noteFolderLocation}"
 fi
 
 if [ ! -e $filePath	]
 then
     # Create today's file based on template
-    cp .template.md "${filePath}"
+    cp "${rootFolder}/.template.md" "${filePath}"
 
-    for section in $(ls -a | grep .section.); do
-      cat "${section}">> "${filePath}"
-      rm "${section}"
+    echo "Applying sections to ${filePath}:"
+    for section in $(ls -a "${rootFolder}" | grep .section.); do
+      echo "* ${section}"
+      cat "${rootFolder}/${section}" >> "${filePath}"
+      rm "${rootFolder}/${section}"
     done
 fi
 
