@@ -2,8 +2,16 @@
 
 required_date="${1:-today}"
 
+rootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+rootFolder="$( cat "${rootFolder}/.noteFolderPath")"
+if [ ! -z $rootFolder ]; then
+  echo "Can't find root folder, did you run note-setup?"
+  exit 1
+fi
+
 formated_date="$( date -d "${required_date}" +'%Y-%m-%d' )"
-folderPath="./notes"
+folderPath="${rootFolder}/notes"
+
 filePath="${folderPath}/${formated_date}.md"
 
 # Save section for next day

@@ -2,8 +2,16 @@
 
 required_date="${1:-today}"
 
+rootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+rootFolder="$( cat "${rootFolder}/.noteFolderPath")"
+if [ ! -z $rootFolder ]; then
+  echo "Can't find root folder, did you run note-setup?"
+  exit 1
+fi
+
 formated_date="$( date -d "${required_date}" +'%Y-%m-%d' )"
-folderPath="./notes"
+folderPath="${rootFolder}/notes"
+
 filePath="${folderPath}/${formated_date}.md"
 
 if [ ! -d "${folderPath}"	]
@@ -11,13 +19,15 @@ then
 	mkdir -p "${folderPath}"
 fi
 
-
 if [ ! -e $filePath	]
 then
     # Create today's file based on template
     cp .template.md "${filePath}"
-    ls -a | grep .section. | xargs cat >> "${filePath}"
-    ls -a | grep .section. | xargs rm
+
+    for section in $(ls -a | grep .section.); do
+      cat "${section}">> "${filePath}"
+      rm "${section}"
+    done
 fi
 
 

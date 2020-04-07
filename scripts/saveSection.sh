@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-rootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 file="${1}"
 section="${2}"
 
