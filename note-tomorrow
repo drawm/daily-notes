@@ -1,7 +1,7 @@
 #!/bin/bash
 
-./sync
+./note-sync
 
 document_date="${1:-tomorrow}"
 
-./open "${document_date}"
+./note-open "${document_date}"

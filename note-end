@@ -7,16 +7,16 @@ folderPath="./notes"
 filePath="${folderPath}/${formated_date}.md"
 
 # Save section for next day
-./scripts/saveSection.sh "${filePath}" "Todo" > .section.todo.md
+./note-scripts/saveSection.sh "${filePath}" "Todo" > .section.todo.md
 git add .section.todo.md
 
-./scripts/saveSection.sh "${filePath}" "Tomorrow" > .section.tomorrow.md
+./note-scripts/saveSection.sh "${filePath}" "Tomorrow" > .section.tomorrow.md
 git add .section.tomorrow.md
 
-./scripts/saveSection.sh "${filePath}" "Reminder" > .section.reminder.md
+./note-scripts/saveSection.sh "${filePath}" "Reminder" > .section.reminder.md
 git add .section.reminder.md
 
-./scripts/saveSection.sh "${filePath}" "Keep" > .section.keep.md
+./note-scripts/saveSection.sh "${filePath}" "Keep" > .section.keep.md
 git add .section.keep.md
 
 

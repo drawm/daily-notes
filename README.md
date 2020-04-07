@@ -23,15 +23,15 @@ When you start your day, use `begin` to update your notes, create a new note fil
 #### Examples:
 ```bash
 # Create a new note with the current date
-./begin
+./note-begin
 
 # Create a new note for next friday
-./begin 'next friday'
+./note-begin 'next friday'
 ```
 
 When you are done taking notes for the day, use `end` to save your notes and extract some sections for the next day.
 ```bash
-./end
+./note-end
 ```
 
 ### Sections
@@ -66,16 +66,16 @@ Keep
 For safe keeping
 ```
 
-Sections are saved when you use `./end` to complete your notes for the day.
+Sections are saved when you use `./note-end` to complete your notes for the day.
 
 ### Useful tips
-* To quickly open yesterday's note, simply run `./yesterday`
-* Same goes for tomorrow's note, simply run `./tomorrow`
-* To create a note without updating or syncing your files, use `./new` 
-* To open a note without creating a new file and adding sections to it, use `./open`
+* To quickly open yesterday's note, simply run `./note-yesterday`
+* Same goes for tomorrow's note, simply run `./note-tomorrow`
+* To create a note without updating or syncing your files, use `./note-new` 
+* To open a note without creating a new file and adding sections to it, use `./note-open`
 * All scripts that open notes accept a date as an argument to open the note file of that day.
-    * `./open 'today'` (same as `./open`)
-    * `./new 'last tuesday'`
-    * `./tomorrow 'last sunday'` (kinda dumb but it works :shrug:)
-    * `./yesterday 'next monday'` (kinda dumb but it works :shrug:)
+    * `./note-open 'today'` (same as `./note-open`)
+    * `./note-new 'last tuesday'`
+    * `./note-tomorrow 'last sunday'` (kinda dumb but it works :shrug:)
+    * `./note-yesterday 'next monday'` (kinda dumb but it works :shrug:)
 
