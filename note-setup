@@ -45,10 +45,10 @@ then
   exit 1
 fi
 
-if [ ! -d "${noteFolder}"	]
+if [ ! -d "${noteFolder}/notes"	]
 then
-  echo "Folder '${noteFolder}' does not exist"
-  exit 1
+  echo "Folder '${noteFolder}' does not exist, creating..."
+  mkdir -p "${noteFolder}/notes"
 fi
 
 # Save note folder location

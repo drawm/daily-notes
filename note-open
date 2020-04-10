@@ -1,7 +1,5 @@
 #!/bin/bash
 
-source ./date-parser $1
-
 rootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 rootFolder="$( cat "${rootFolder}/.noteFolderPath")"
 if [ -z $rootFolder ]; then
@@ -10,6 +8,7 @@ if [ -z $rootFolder ]; then
 fi
 
 # parseInputDate (function) and formattedDate (variable) are sourced from date-parser
+source "${rootFolder}/date-parser" $1
 parseInputDate
 noteFolderLocation="${rootFolder}/notes"
 filePath="${noteFolderLocation}/${formattedDate}.md"
