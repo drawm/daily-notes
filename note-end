@@ -1,6 +1,6 @@
 #!/bin/bash
 
-required_date="${1:-today}"
+source ./date-parser $1
 
 initialLocation="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 rootFolder="$(cat "${initialLocation}/.noteFolderPath")"
@@ -9,10 +9,11 @@ if [ -z $rootFolder ]; then
   exit 1
 fi
 
-formated_date="$( date -d "${required_date}" +'%Y-%m-%d' )"
-noteFolderLocation="${rootFolder}/notes"
-filePath="${noteFolderLocation}/${formated_date}.md"
+# parseInputDate (function) and formattedDate (variable) are sourced from date-parser
+parseInputDate
 
+noteFolderLocation="${rootFolder}/notes"
+filePath="${noteFolderLocation}/${formattedDate}.md"
 
 cd "${rootFolder}"
 
@@ -26,7 +27,7 @@ if [[ ! -z $sections ]]; then
   done
 fi
 
-git add "${filePath}" && git commit -F "${filePath}" && git tag "${formated_date}"
+git add "${filePath}" && git commit -F "${filePath}" && git tag "${formattedDate}"
 
 
 git push origin master

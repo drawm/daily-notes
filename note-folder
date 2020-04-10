@@ -1,7 +1,5 @@
 #!/bin/bash
 
-required_date="${1:-today}"
-
 rootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 rootFolder="$( cat "${rootFolder}/.noteFolderPath")"
 if [ ! -z $rootFolder ]; then

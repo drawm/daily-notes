@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# Used to check which machine we are running on
+unameOut="$(uname -s)"
+MAC_OS="Darwin"
+LINUX_OS="Linux"
+
+defaultDateFormat="%Y-%m-%d"
+
+# Since this script will be sourced, catch our potential positional argument here
+arg="${1}"
+
+parseInputDate() {
+    # Validate input date and format it
+    # Take into account different implementations of `date` commant
+    if [ "${unameOut}" = "${LINUX_OS}" ]
+    then
+        requiredDate="${arg:-today}"
+        formattedDate="$( date -d "${requiredDate}" +${defaultDateFormat})"
+    elif [ "${unameOut}" = "${MAC_OS}" ]
+    then
+        # On BSD based systems (i.e. Mac), date cannot accept any input as a string
+        # So we have to enforce a specific format to validate against
+        todaysDateMacOs="$(date -j +${defaultDateFormat})"
+        requiredDate="${arg:-${todaysDateMacOs}}"
+
+        validationResults="$(date -j -f "${defaultDateFormat}" "${requiredDate}" > /dev/null 2>&1)"
+
+        if [ "$?" = "1" ]
+        then
+            echo "Invalid date format ! Received: \"${requiredDate}\". Date should match: ${defaultDateFormat}"
+            exit 1
+        fi
+        # A bit more context on -f -> "-f input_fmt new_date +output_fmt"
+        # @see `man date` on BSD/Mac OS for more details
+        formattedDate="$(date -j -f "${defaultDateFormat}" ${requiredDate} +${defaultDateFormat})"
+    fi
+}
+
+# Expected argument, one of "today" | "tomorrow" | "yesterday"
+# Based on the underlying OS, use the correct implementation of `date`
+generateDate() {
+    if [ "${unameOut}" = "${MAC_OS}" ]
+    echo "I AM IN THE CASE"
+    then
+        case "${arg}" in
+        "tomorrow")
+            generatedDate="$(date -j -v+1d +${defaultDateFormat})"
+            ;;
+
+        "yesterday")
+            generatedDate="$(date -j -v-1d +${defaultDateFormat})"
+            ;;
+
+        *)
+            generatedDate="$(date -j +${defaultDateFormat})"
+            ;;
+        esac
+    elif [ "${1}" = "${LINUX_OS}" ]
+    then
+        case "${arg}" in
+        "tomorrow")
+            generatedDate="$( date --date="tomorrow" +${defaultDateFormat} )"
+            ;;
+
+        "yesterday")
+            generatedDate="$( date --date="yesterday" +${defaultDateFormat} )"
+            ;;
+
+        *)
+            generatedDate="$( date --date="today" +${defaultDateFormat} )"
+            ;;
+        esac
+    fi
+}
+
+

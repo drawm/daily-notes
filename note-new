@@ -1,22 +1,6 @@
 #!/bin/bash
 
-# Used to check which machine we are running on
-unameOut="$(uname -s)"
-MAC_OS="Darwin"
-LINUX_OS="Linux"
-
-# Use date from args, or default, take into account date implementation differences
-if [ "${unameOut}" = "${LINUX_OS}" ]
-then
-  requiredDate="${1:-today}"
-elif [ "${unameOut}" = "${MAC_OS}" ]
-then
-  # On BSD based systems (i.e. Mac), date cannot accept any input as a string
-  # So we have to enforce a specific format to validate against
-  macOsDefaultDateFormat="%Y-%m-%d"
-  todaysDateMacOs="$(date -j +${macOsDefaultDateFormat})"
-  requiredDate="${1:-todaysDateMacOs}"
-fi
+source ./date-parser $1
 
 rootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 rootFolder="$( cat "${rootFolder}/.noteFolderPath")"
@@ -26,25 +10,10 @@ if [ -z $rootFolder ]; then
   exit 1
 fi
 
-# Validate input date and format it
-# Take into account different implementations of `date` commant
-elif [ "${unameOut}" = "${LINUX_OS}" ]
-then
-  formated_date="$( date -d "${requiredDate}" +'%Y-%m-%d' )"
-elif [ "${unameOut}" = "${MAC_OS}" ]
-then
-  validation_result="$(date -j -f ${macOsDefaultDateFormat} -j ${requiredDate} > /dev/null 2>&1)"
-  if [ "$?" = "1" ]
-  then
-    echo "Invalid date format for ${requiredDate}, expected ${macOsDefaultDateFormat}"
-    exit 1
-  fi
-  formated_date="$( date -j -f "${requiredDate}" +'%Y-%m-%d' )"
-fi
-
 noteFolderLocation="${rootFolder}/notes"
-
-filePath="${noteFolderLocation}/${formated_date}.md"
+# parseInputDate (function) and formattedDate (variable) are sourced from date-parser
+parseInputDate
+filePath="${noteFolderLocation}/${formattedDate}.md"
 
 if [ ! -d "${noteFolderLocation}"	]
 then

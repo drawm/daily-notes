@@ -1,9 +1,13 @@
 #!/bin/bash
 
+source ./date-parser "today"
+
 initialLocation="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 . ${initialLocation}/note-sync
 
-document_date="${1:-today}"
+# generateDate (function) and generatedDate (variable) are sourced from date-parser
+generateDate
+document_date="${1:-${generatedDate}}"
 
 . ${initialLocation}/note-new "${document_date}"

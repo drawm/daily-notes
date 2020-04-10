@@ -1,6 +1,6 @@
 #!/bin/bash
 
-required_date="${1:-today}"
+source ./date-parser $1
 
 rootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 rootFolder="$( cat "${rootFolder}/.noteFolderPath")"
@@ -9,17 +9,15 @@ if [ -z $rootFolder ]; then
   exit 1
 fi
 
-formated_date="$( date -d "${required_date}" +'%Y-%m-%d' )"
+# parseInputDate (function) and formattedDate (variable) are sourced from date-parser
+parseInputDate
 noteFolderLocation="${rootFolder}/notes"
-
-filePath="${noteFolderLocation}/${formated_date}.md"
-
+filePath="${noteFolderLocation}/${formattedDate}.md"
 
 if [ ! -d "${noteFolderLocation}"	]
 then
 	mkdir -p "${noteFolderLocation}"
 fi
-
 
 if [ ! -e $filePath	]
 then
