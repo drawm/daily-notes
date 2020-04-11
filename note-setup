@@ -40,7 +40,7 @@ fi
 
 # Save note folder location
 echo "Note folder is '${noteFolder}'"
-echo "${noteFolder}" > .noteFolderPath
+echo "${noteFolder}" > "${rootFolder}/.noteFolderPath"
 
 # Copy base template file
 cp "${rootFolder}/.template.md" "${noteFolder}/.template.md"
