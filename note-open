@@ -1,16 +1,17 @@
 #!/bin/bash
 
-rootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-rootFolder="$( cat "${rootFolder}/.noteFolderPath")"
-if [ -z $rootFolder ]; then
+appRootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source "${appRootFolder}/date-parser"
+
+notesRootFolder="$( cat "${appRootFolder}/.noteFolderPath")"
+if [ -z $notesRootFolder ]; then
   echo "Can't find root folder, did you run note-setup?"
   exit 1
 fi
 
 # parseInputDate (function) and formattedDate (variable) are sourced from date-parser
-source "${rootFolder}/date-parser" $1
-parseInputDate
-noteFolderLocation="${rootFolder}/notes"
+parseInputDate $1
+noteFolderLocation="${notesRootFolder}/notes"
 filePath="${noteFolderLocation}/${formattedDate}.md"
 
 if [ ! -d "${noteFolderLocation}"	]

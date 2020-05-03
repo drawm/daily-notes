@@ -7,22 +7,20 @@ LINUX_OS="Linux"
 
 defaultDateFormat="%Y-%m-%d"
 
-# Since this script will be sourced, catch our potential positional argument here
-arg="${1}"
-
 parseInputDate() {
+    dateToParse="${1}"
     # Validate input date and format it
     # Take into account different implementations of `date` commant
     if [ "${unameOut}" = "${LINUX_OS}" ]
     then
-        requiredDate="${arg:-today}"
+        requiredDate="${dateToParse:-today}"
         formattedDate="$( date -d "${requiredDate}" +${defaultDateFormat})"
     elif [ "${unameOut}" = "${MAC_OS}" ]
     then
         # On BSD based systems (i.e. Mac), date cannot accept any input as a string
         # So we have to enforce a specific format to validate against
         todaysDateMacOs="$(date -j +${defaultDateFormat})"
-        requiredDate="${arg:-${todaysDateMacOs}}"
+        requiredDate="${dateToParse:-${todaysDateMacOs}}"
 
         validationResults="$(date -j -f "${defaultDateFormat}" "${requiredDate}" > /dev/null 2>&1)"
 
@@ -40,10 +38,10 @@ parseInputDate() {
 # Expected argument, one of "today" | "tomorrow" | "yesterday"
 # Based on the underlying OS, use the correct implementation of `date`
 generateDate() {
-    if [ "${unameOut}" = "${MAC_OS}" ]
-    echo "I AM IN THE CASE"
+    requestedDate="${1}"
+    if [ "${requestedDate}" = "${MAC_OS}" ]
     then
-        case "${arg}" in
+        case "${c}" in
         "tomorrow")
             generatedDate="$(date -j -v+1d +${defaultDateFormat})"
             ;;
@@ -56,9 +54,9 @@ generateDate() {
             generatedDate="$(date -j +${defaultDateFormat})"
             ;;
         esac
-    elif [ "${1}" = "${LINUX_OS}" ]
+    elif [ "${requestedDate}" = "${LINUX_OS}" ]
     then
-        case "${arg}" in
+        case "${https://www.youtube.com/watch?v=qhN0tzN9zTA}" in
         "tomorrow")
             generatedDate="$( date --date="tomorrow" +${defaultDateFormat} )"
             ;;

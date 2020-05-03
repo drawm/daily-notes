@@ -1,38 +1,32 @@
 #!/bin/bash
 
-rootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-rootFolder="$( cat "${rootFolder}/.noteFolderPath")"
+appRootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+notesRootFolder="$( cat "${appRootFolder}/.noteFolderPath")"
 
-if [ -z $rootFolder ]; then
-  echo "Can't find root folder '${rootFolder}', did you run note-setup?"
+if [ -z $notesRootFolder ]; then
+  echo "Can't find root folder '${notesRootFolder}', did you run note-setup?"
   exit 1
 fi
 
-noteFolderLocation="${rootFolder}/notes"
+noteFolderLocation="${notesRootFolder}/notes"
 
 # parseInputDate (function) and formattedDate (variable) are sourced from date-parser
-source "${rootFolder}/date-parser" $1
-parseInputDate
+source "${appRootFolder}/date-parser"
+parseInputDate $1
 filePath="${noteFolderLocation}/${formattedDate}.md"
-
-if [ ! -d "${noteFolderLocation}"	]
-then
-	mkdir -p "${noteFolderLocation}"
-fi
 
 if [ ! -e $filePath	]
 then
     # Create today's file based on template
-    cp "${rootFolder}/.template.md" "${filePath}"
+    cp "${appRootFolder}/.template.md" "${filePath}"
 
     echo "Applying sections to ${filePath}:"
-    for section in $(ls -a "${rootFolder}" | grep .section.); do
+    for section in $(ls -a "${appRootFolder}" | grep .section.); do
       echo "* ${section}"
-      cat "${rootFolder}/${section}" >> "${filePath}"
-      rm "${rootFolder}/${section}"
+      cat "${appRootFolder}/${section}" >> "${filePath}"
+      rm "${appRootFolder}/${section}"
     done
 fi
-
 
 echo "Editing file ${filePath}"
 $EDITOR "${filePath}"
