@@ -78,8 +78,6 @@ Sections are saved when you use `note-end` to complete your notes for the day.
 * All scripts that open notes accept a date as an argument to open the note file of that day.
     * `note-open 'today'` (same as `./note-open`)
     * `note-new 'last tuesday'`
-    * `note-tomorrow 'last sunday'` (kinda dumb but it works :shrug:)
-    * `note-yesterday 'next monday'` (kinda dumb but it works :shrug:)
 
 ## Permissions
 This project need to be able to read and write files. For convenience, the `$HOME` environment variable is also needed.

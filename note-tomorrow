@@ -1,12 +1,12 @@
 #!/bin/bash
 
-initialLocation="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-source "${initialLocation}/date-parser"
+rootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source "${rootFolder}/date-parser"
 
 # generateDate (function) and generatedDate (variable) are sourced from date-parser
 generateDate "tomorrow"
 document_date="${1:-${generatedDate}}"
 
-. "${initialLocation}/note-sync"
+. "${rootFolder}/note-sync"
 
-. "${initialLocation}/note-open" "${document_date}"
+. "${rootFolder}/note-open" "${document_date}"
