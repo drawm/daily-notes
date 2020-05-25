@@ -79,3 +79,30 @@ Sections are saved when you use `./note-end` to complete your notes for the day.
     * `./note-tomorrow 'last sunday'` (kinda dumb but it works :shrug:)
     * `./note-yesterday 'next monday'` (kinda dumb but it works :shrug:)
 
+## Permissions
+This project need to be able to read and write files. For convenience, the `$HOME` environment variable is also needed.
+
+Theses 3 flags are needed to use `daily-notes`:
+* `--allow-read`
+* `--allow-write`
+* `--allow-env`
+
+## Contribution
+Most of the codebase is being rewritten in [deno](https://deno.land).
+Net new features should be written using TS. 
+
+
+### Tests
+Tests are run in a docker container to freely change the file system without impacting the host environment.
+
+You can run tests outside of docker but it might break your own daily-notes.
+
+Build the docker image
+```bash
+docker build . -t daily-notes
+``` 
+
+And run the tests
+```bash
+docker run -v $PWD:/daily-notes daily-notes test --allow-env --allow-read --allow-write --unstable 
+```
