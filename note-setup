@@ -4,6 +4,13 @@ rootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 noteFolder="${1}"
 gitRemoteUrl="${2}"
 
+if [[ $noteFolder = 'update' ]]; then
+  noteFolder=$(cat "${rootFolder}/.noteFolderPath")
+  gitRemoteUrl=$(cd "${noteFolder}" && git remote -v | tail -n 1 | awk '{print $2}')
+  echo "noteFolder '${noteFolder}'"
+  echo "gitRemoteUrl '${gitRemoteUrl}'"
+fi
+
 if [ -z $noteFolder ]; then
   echo "Please provide a path to your note folder"
   echo "ex: ./note-setup /my-daily-notes my-server.com/daily-notes.git"
