@@ -16,19 +16,15 @@ filePath="${noteFolderLocation}/${formated_date}.md"
 
 cd "${rootFolder}"
 
-# Save section for next day
-. "${initialLocation}/scripts/saveSection.sh" "${filePath}" "Todo" > .section.todo.md
-git add .section.todo.md
+sections=$(cat "${rootFolder}/.sections")
 
-. "${initialLocation}/scripts/saveSection.sh" "${filePath}" "Tomorrow" > .section.tomorrow.md
-git add .section.tomorrow.md
-
-. "${initialLocation}/scripts/saveSection.sh" "${filePath}" "Reminder" > .section.reminder.md
-git add .section.reminder.md
-
-. "${initialLocation}/scripts/saveSection.sh" "${filePath}" "Keep" > .section.keep.md
-git add .section.keep.md
-
+if [[ ! -z $sections ]]; then
+  for section in $sections; do
+    # Save section for next day
+    . "${initialLocation}/scripts/saveSection.sh" "${filePath}" "${section}" > ".section.${section}.md"
+    git add ".section.${section}.md"
+  done
+fi
 
 git add "${filePath}" && git commit -F "${filePath}" && git tag "${formated_date}"
 

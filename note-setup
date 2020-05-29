@@ -42,6 +42,9 @@ fi
 echo "Note folder is '${noteFolder}'"
 echo "${noteFolder}" > "${rootFolder}/.noteFolderPath"
 
+# Copy base sections file
+cp "${rootFolder}/.sections" "${noteFolder}/.sections"
+
 # Copy base template file
 cp "${rootFolder}/.template.md" "${noteFolder}/.template.md"
 
