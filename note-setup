@@ -7,8 +7,14 @@ gitRemoteUrl="${2}"
 if [[ $noteFolder = 'update' ]]; then
   noteFolder=$(cat "${rootFolder}/.noteFolderPath")
   gitRemoteUrl=$(cd "${noteFolder}" && git remote -v | tail -n 1 | awk '{print $2}')
-  echo "noteFolder '${noteFolder}'"
-  echo "gitRemoteUrl '${gitRemoteUrl}'"
+  pushd "${rootFolder}"
+  git fetch origin && git rebase origin/master
+  gitStatusCode=$?
+  if [[ $gitStatusCode != 0 ]]; then
+    echo "Was not able to update, go to '${rootFolder}' and fix previously mentionned issues"
+    exit $gitStatusCode
+  fi
+  popd
 fi
 
 if [ -z $noteFolder ]; then
