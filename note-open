@@ -9,8 +9,8 @@ if [ -z $notesFolder ]; then
   exit 1
 fi
 
-# parseInputDate (function) and formattedDate (variable) are sourced from date-parser
-parseInputDate $1
+# parseInputDate (function) is sourced from date-parser
+formattedDate="$(parseInputDate $1)"
 noteFolderLocation="${notesFolder}/notes"
 filePath="${noteFolderLocation}/${formattedDate}.md"
 

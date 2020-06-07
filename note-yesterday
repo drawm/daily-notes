@@ -3,10 +3,10 @@
 rootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source "${rootFolder}/date-parser"
 
-# generateDate (function) and generatedDate (variable) are sourced from date-parser
-generateDate "yesterday"
-document_date="${1:-${generatedDate}}"
+# generateDate (function) is sourced from date-parser
+generatedDate="$(generateDate $1)"
+documentDate="${1:-${generatedDate}}"
 
 . "${rootFolder}/note-sync"
 
-. "${rootFolder}/note-open" "${document_date}"
+. "${rootFolder}/note-open" "${documentDate}"

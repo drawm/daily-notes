@@ -12,7 +12,7 @@ noteFolderLocation="${notesFolder}/notes"
 
 # parseInputDate (function) and formattedDate (variable) are sourced from date-parser
 source "${rootFolder}/date-parser"
-parseInputDate $1
+formattedDate="$(parseInputDate $1)"
 filePath="${noteFolderLocation}/${formattedDate}.md"
 
 if [ ! -e $filePath	]

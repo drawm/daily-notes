@@ -1,29 +1,31 @@
 #!/bin/bash
 
-# Used to check which machine we are running on
-unameOut="$(uname -s)"
-MAC_OS="Darwin"
-LINUX_OS="Linux"
-
-defaultDateFormat="%Y-%m-%d"
-
 parseInputDate() {
-    dateToParse="${1}"
+    # Used to check which machine we are running on
+    local unameOut="$(uname -s)"
+    local MAC_OS="Darwin"
+    local LINUX_OS="Linux"
+
+    local defaultDateFormat="%Y-%m-%d"
+
+    local dateToParse="${1}"
     # Validate input date and format it
-    # Take into account different implementations of `date` commant
+    # Take into account different implementations of `date` command
     if [ "${unameOut}" = "${LINUX_OS}" ]
     then
-        requiredDate="${dateToParse:-today}"
-        formattedDate="$( date -d "${requiredDate}" +${defaultDateFormat})"
+        local requiredDate="${dateToParse:-today}"
+        echo "$( date -d "${requiredDate}" +${defaultDateFormat})"
+        return 0
     elif [ "${unameOut}" = "${MAC_OS}" ]
     then
         # On BSD based systems (i.e. Mac), date cannot accept any input as a string
         # So we have to enforce a specific format to validate against
-        todaysDateMacOs="$(date -j +${defaultDateFormat})"
-        requiredDate="${dateToParse:-${todaysDateMacOs}}"
+        local todaysDateMacOs="$(date -j +${defaultDateFormat})"
+        local requiredDate="${dateToParse:-${todaysDateMacOs}}"
 
-        validationResults="$(date -j -f "${defaultDateFormat}" "${requiredDate}" > /dev/null 2>&1)"
+        echo "$(date -j -f "${defaultDateFormat}" "${requiredDate}" > /dev/null 2>&1)"
 
+        # $? Will contain the return code of the last command
         if [ "$?" = "1" ]
         then
             echo "Invalid date format ! Received: \"${requiredDate}\". Date should match: ${defaultDateFormat}"
@@ -31,17 +33,28 @@ parseInputDate() {
         fi
         # A bit more context on -f -> "-f input_fmt new_date +output_fmt"
         # @see `man date` on BSD/Mac OS for more details
-        formattedDate="$(date -j -f "${defaultDateFormat}" ${requiredDate} +${defaultDateFormat})"
+        echo "$(date -j -f "${defaultDateFormat}" ${requiredDate} +${defaultDateFormat})"
+        return 0
     fi
+    echo "Unsupported platform '${unameOut}'"
+    return 1
 }
 
 # Expected argument, one of "today" | "tomorrow" | "yesterday"
 # Based on the underlying OS, use the correct implementation of `date`
 generateDate() {
-    requestedDate="${1}"
-    if [ "${requestedDate}" = "${MAC_OS}" ]
+    # Used to check which machine we are running on
+    local unameOut="$(uname -s)"
+    local MAC_OS="Darwin"
+    local LINUX_OS="Linux"
+
+    local defaultDateFormat="%Y-%m-%d"
+
+    local requestedDate="${1}"
+    local generatedDate=""
+    if [ "${unameOut}" = "${MAC_OS}" ]
     then
-        case "${c}" in
+        case "${requestedDate}" in
         "tomorrow")
             generatedDate="$(date -j -v+1d +${defaultDateFormat})"
             ;;
@@ -54,22 +67,11 @@ generateDate() {
             generatedDate="$(date -j +${defaultDateFormat})"
             ;;
         esac
-    elif [ "${requestedDate}" = "${LINUX_OS}" ]
+    elif [ "${unameOut}" = "${LINUX_OS}" ]
     then
-        case "${https://www.youtube.com/watch?v=qhN0tzN9zTA}" in
-        "tomorrow")
-            generatedDate="$( date --date="tomorrow" +${defaultDateFormat} )"
-            ;;
-
-        "yesterday")
-            generatedDate="$( date --date="yesterday" +${defaultDateFormat} )"
-            ;;
-
-        *)
-            generatedDate="$( date --date="today" +${defaultDateFormat} )"
-            ;;
-        esac
+        generatedDate="$( date --date="${requestedDate}" +${defaultDateFormat} )"
     fi
+    echo "${generatedDate}"
 }
 
 

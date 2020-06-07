@@ -5,8 +5,8 @@ source "${rootFolder}/date-parser"
 
 . ${rootFolder}/note-sync
 
-# generateDate (function) and generatedDate (variable) are sourced from date-parser
-generateDate $1
-document_date="${1:-${generatedDate}}"
+# generateDate (function) is sourced from date-parser
+generatedDate="$(generateDate $1)"
+documentDate="${1:-${generatedDate}}"
 
-. ${rootFolder}/note-new "${document_date}"
+. ${rootFolder}/note-new "${documentDate}"
