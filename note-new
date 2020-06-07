@@ -10,7 +10,7 @@ fi
 
 noteFolderLocation="${notesFolder}/notes"
 
-# parseInputDate (function) and formattedDate (variable) are sourced from date-parser
+# parseInputDate is sourced from date-parser
 source "${rootFolder}/date-parser"
 formattedDate="$(parseInputDate $1)"
 filePath="${noteFolderLocation}/${formattedDate}.md"

@@ -24,10 +24,9 @@ if [[ ! -z $sections ]]; then
   done
 fi
 
-# parseInputDate (function) and formattedDate (variable) are sourced from date-parser
-parseInputDate $1
+# parseInputDate (function) is sourced from date-parser
+formattedDate="$(parseInputDate $1)"
 git add "${filePath}" && git commit -F "${filePath}" && git tag "${formattedDate}"
-
 
 git push origin master
 
