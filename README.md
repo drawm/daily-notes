@@ -71,7 +71,7 @@ Sections are saved when you use `./note-end` to complete your notes for the day.
 ### Useful tips
 * To quickly open yesterday's note, simply run `./note-yesterday`
 * Same goes for tomorrow's note, simply run `./note-tomorrow`
-* To create a note without updating or syncing your files, use `./note-new` 
+* To create a note without updating or syncing your files, use `./note-new`
 * To open a note without creating a new file and adding sections to it, use `./note-open`
 * All scripts that open notes accept a date as an argument to open the note file of that day.
     * `./note-open 'today'` (same as `./note-open`)
@@ -89,7 +89,7 @@ Theses 3 flags are needed to use `daily-notes`:
 
 ## Contribution
 Most of the codebase is being rewritten in [deno](https://deno.land).
-Net new features should be written using TS. 
+Net new features should be written using TS.
 
 
 ### Tests
@@ -100,9 +100,16 @@ You can run tests outside of docker but it might break your own daily-notes.
 Build the docker image
 ```bash
 docker build . -t daily-notes
-``` 
+```
 
 And run the tests
 ```bash
-docker run -v $PWD:/daily-notes daily-notes test --allow-env --allow-read --allow-write --unstable 
+docker run -v $PWD:/daily-notes daily-notes test --allow-env --allow-read --allow-write --unstable
 ```
+
+TODO
+===
+* Config loading is convoluted and possibly over engineered
+    * args can be sources from env & cli arguments
+    * config is from the user configuration file only
+    * Distinction between en two is important, do not allow overlap for now (might be added later)
