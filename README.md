@@ -71,6 +71,7 @@ For safe keeping
 Sections are saved when you use `note-end` to complete your notes for the day.
 
 ### Useful tips
+
 * To quickly open yesterday's note, simply run `note-yesterday`
 * Same goes for tomorrow's note, simply run `note-tomorrow`
 * To create a note without updating or syncing your files, use `note-new` 
@@ -89,7 +90,7 @@ Theses 3 flags are needed to use `daily-notes`:
 
 ## Contribution
 Most of the codebase is being rewritten in [deno](https://deno.land).
-Net new features should be written using TS. 
+Net new features should be written using TS.
 
 
 ### Tests
@@ -100,9 +101,51 @@ You can run tests outside of docker but it might break your own daily-notes.
 Build the docker image
 ```bash
 docker build . -t daily-notes
-``` 
+```
 
 And run the tests
 ```bash
-docker run -v $PWD:/daily-notes daily-notes test --allow-env --allow-read --allow-write --unstable 
+docker run -v $PWD:/daily-notes daily-notes test --allow-env --allow-read --allow-write --unstable
 ```
+
+TODO
+===
+* Config loading is convoluted and possibly over engineered
+    * args can be sources from env & cli arguments
+    * config is from the user configuration file only
+    * Distinction between en two is important, do not allow overlap for now (might be added later)
+* Make `test` script (& update the doc/readme)
+* Migrate everything to deno
+  * Keep the oppening of the editor in bash
+    * Needed for now as Deno does not properly handle subprocess
+    * Can't open editors through deno :(
+    * Maybe this pr will fix it? https://github.com/denoland/deno/pull/5836
+  * Keep note-setup for last as it will require more thinking
+  * Use `deno install` if possible to get the base binary instead of cloning the repo
+
+## New features
+* [Feat]((tag)) [ ] Add support for tags (used for search and linking things together
+  * Meta data should be hidded form the end html
+  * Reuse link syntax?
+  * [display name]((double,parentesis,for,tags))
+  * Do a poc and start using it, worst case scenario, write a converter to move to another syntax
+  * Foam uses [[]], its plain text and will not be capture my mk converter.
+* [Feat]((deno,new,project)) [ ] `note project new 'project name'` create project
+* [Feat]((deno,new,project)) [ ] `note project [list] 'project name'` list notes
+* [Feat]((deno,new,project)) [ ] `note project 'project name' 'note name'` open/create note
+* [Feat]((deno,new,project)) [ ] `note project [list]` list projects
+* [Feat]((deno,new,wiki)) [ ] `note wiki new 'project name'` create project
+* [Feat]((deno,new,wiki)) [ ] `note wiki [list] 'project name'` list notes
+* [Feat]((deno,new,wiki)) [ ] `note wiki 'project name' 'note name'` open/create note
+* [Feat]((deno,new,wiki)) [ ] `note wiki [list]` list projects
+* [Feat]((deno)) [ ] `note daily open [today]` open daily note named with today's date (error if does not exist)
+* [Feat]((deno)) [ ] `note daily open 2020-08-28` open daily note at specific date
+* [Feat]((deno)) [ ] `note daily new [today]` create daily note named with today's date
+* [Feat]((deno)) [ ] `note daily new 2020-08-28` create daily note at specific date
+* [Feat]((deno)) [ ] `note daily start [today]` create/open daily note named with today's date
+* [Feat]((deno)) [ ] `note daily start 2020-08-28` create/open daily note at specific date
+* [Feat]((deno)) [ ] `note daily end [today]` save daily note and generate meta-data
+* [Feat]((deno)) [ ] `note daily end 2020-08-28` save daily note at specific date and generate meta-data
+* [Feat]((deno)) [ ] `note setup` setup daily note folder structure
+
+
