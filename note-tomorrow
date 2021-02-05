@@ -1,9 +1,0 @@
-#!/bin/bash
-
-initialLocation="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-
-document_date="${1:-tomorrow}"
-
-. "${initialLocation}/note-sync"
-
-. "${initialLocation}/note-open" "${document_date}"
