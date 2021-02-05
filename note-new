@@ -1,15 +1,17 @@
 #!/bin/bash
 
+
 required_date="${1:-today}"
 
-rootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-rootFolder="$( cat "${rootFolder}/.noteFolderPath")"
+initialLocation="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source ${initialLocation}/scripts/gnudate.sh
+rootFolder="$( cat "${initialLocation}/.noteFolderPath")"
 if [ -z $rootFolder ]; then
   echo "Can't find root folder '${rootFolder}', did you run note-setup?"
   exit 1
 fi
 
-formated_date="$( date -d "${required_date}" +'%Y-%m-%d' )"
+formated_date="$( gnudate -d "${required_date}" +'%Y-%m-%d' )"
 noteFolderLocation="${rootFolder}/notes"
 
 filePath="${noteFolderLocation}/${formated_date}.md"
@@ -25,11 +27,16 @@ then
     cp "${rootFolder}/.template.md" "${filePath}"
 
     echo "Applying sections to ${filePath}:"
-    for section in $(ls -a "${rootFolder}" | grep .section.); do
-      echo "* ${section}"
-      cat "${rootFolder}/${section}" >> "${filePath}"
-      rm "${rootFolder}/${section}"
-    done
+
+    sections=$(cat "${rootFolder}/.sections")
+
+    if [[ ! -z $sections ]]; then
+        for section in $sections; do
+            echo "* ${section}"
+            cat "${rootFolder}/.section.${section}".md >> "${filePath}"
+            rm "${rootFolder}/.section.${section}".md
+        done
+    fi
 fi
 
 

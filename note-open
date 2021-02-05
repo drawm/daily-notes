@@ -2,14 +2,15 @@
 
 required_date="${1:-today}"
 
-rootFolder="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-rootFolder="$( cat "${rootFolder}/.noteFolderPath")"
+initialLocation="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source ${initialLocation}/scripts/gnudate.sh
+rootFolder="$( cat "${initialLocation}/.noteFolderPath")"
 if [ -z $rootFolder ]; then
   echo "Can't find root folder, did you run note-setup?"
   exit 1
 fi
 
-formated_date="$( date -d "${required_date}" +'%Y-%m-%d' )"
+formated_date="$( gnudate -d "${required_date}" +'%Y-%m-%d' )"
 noteFolderLocation="${rootFolder}/notes"
 
 filePath="${noteFolderLocation}/${formated_date}.md"
