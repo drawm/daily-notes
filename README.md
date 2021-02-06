@@ -14,9 +14,11 @@ Should work on most "standard" linux distro
 ## Usage
 
 ### Setup
+```
 TLDR:
 Get `daily-notes`, create your note folder and call the setup script
 Change path to fit your needs or keep them as-is.
+```
 
 #### Step by steps
 * Create your note folder
@@ -27,12 +29,28 @@ Change path to fit your needs or keep them as-is.
     - Make sure the parent directory exist `mkdir -p $HOME/.bin`
     - Clone the repo `git clone git@github.com:drawm/daily-notes.git $HOME/.bin/daily-notes`
 * Setup Daily-Notes
-    - Call `note-setup.sh` locate in the repo you clonned
+    - Call `note-setup` locate in the repo you clonned
     - `cd $HOME/.bin/daily-notes`
-    - `./note-setup.sh $HOME/.my-notes no`
+    - `./note-setup $HOME/.my-notes no`
     - Follow the script instructions to add path mapping to your rc file
+* All done!
 
-All done!
+### Note - Getting started
+`note` is used to quickly create & edit personnal notes.
+Usage is simple, `note [category [sub-category]] name`
+Notes must have:
+* At most 2 levels of category.
+* A name.
+
+When editing a note for the first time, a file will be created with a title, timestamp and signature.
+
+Calling `note` with the same argument will re-open the previously note.
+
+Notes will be automatically commited to git when done editing.
+If no change was made, the note isn't commited.
+
+If the new is new and wasn't edited, it is removed.
+This is to prevent creating files when making typos.
 
 ### Journal - Getting started
 Daily notes are managed through the `journal` command.
@@ -46,15 +64,15 @@ At the end of the day, use `end` to save your notes sections and commit to git.
 #### Examples:
 ```bash
 # Create a new note with the current date
-note begin
+journal begin
 
 # Create a new note for next friday
-note begin 'next friday'
+journal begin 'next friday'
 ```
 
 When you are done taking notes for the day, use `end` to save your notes and extract some sections for the next day.
 ```bash
-note end
+journal end
 ```
 
 ### Sections
@@ -89,17 +107,17 @@ Keep
 For safe keeping
 ```
 
-Sections are saved when you use `note end` to complete your notes for the day.
+Sections are saved when you use `journal end` to complete your notes for the day.
 
 ### Useful tips
-* To create a note without updating or syncing your files, use `note new`
-* To open a note without creating a new file and adding sections to it, use `note open`
-* To quickly open yesterday's note, simply run `note open yesterday`
+* To create a note without updating or syncing your files, use `journal new`
+* To open a note without creating a new file and adding sections to it, use `journal open`
+* To quickly open yesterday's note, simply run `journal open yesterday`
 * All scripts that open notes accept a date as an argument to open the note file of that day.
-    * `note open 'today'` (same as `./note-open`)
-    * `note new 'last tuesday'`
-    * `note open 'last sunday'`
-    * `note new 'next monday'`
+    * `journal open 'today'` (same as `journal open`)
+    * `journal new 'last tuesday'`
+    * `journal open 'last sunday'`
+    * `journal new 'next monday'`
 
 ## Permissions (Deno)
 This project need to be able to read and write files. For convenience, the `$HOME` environment variable is also needed.
@@ -141,7 +159,7 @@ TODO
     * Needed for now as Deno does not properly handle subprocess
     * Can't open editors through deno :(
     * Maybe this pr will fix it? https://github.com/denoland/deno/pull/5836
-  * Keep note-setup for last as it will require more thinking
+  * Keep `note-setup` for last as it will require more thinking
   * Use `deno install` if possible to get the base binary instead of cloning the repo
 
 ## New features
