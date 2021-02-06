@@ -6,32 +6,55 @@ Low tech note taking ~application~ scripts
 ### Requirements:
 Should work on most "standard" linux distro
 * `git`
-* `date`
+* `gnu date`
 * `awk`
 * A text editor (`EDITOR` environment variable need to be set)
+* `bash` or `zsh` for autocompletion
 
 ## Usage
 
-### Setup in two steps
-* Clone this repo (`git clone git@github.com:drawm/daily-notes.git`)
-* Move over to your own repo (you won't be able to push to https://github.com/drawm/daily-notes)
+### Setup
+TLDR:
+Get `daily-notes`, create your note folder and call the setup script
+Change path to fit your needs or keep them as-is.
 
-### Getting started
-When you start your day, use `begin` to update your notes, create a new note file.
-* All notes are located in the `notes/` folder.
+#### Step by steps
+* Create your note folder
+    - `mkdir -p $HOME/.my-notes`
+    - `cd $HOME/.my-notes`
+    - `git init`
+* Get `daily-notes`
+    - Make sure the parent directory exist `mkdir -p $HOME/.bin`
+    - Clone the repo `git clone git@github.com:drawm/daily-notes.git $HOME/.bin/daily-notes`
+* Setup Daily-Notes
+    - Call `note-setup.sh` locate in the repo you clonned
+    - `cd $HOME/.bin/daily-notes`
+    - `./note-setup.sh $HOME/.my-notes no`
+    - Follow the script instructions to add path mapping to your rc file
+
+All done!
+
+### Journal - Getting started
+Daily notes are managed through the `journal` command.
+`journal` has 4 possible action (`begin`, `open`, `end`, `new`) and they all accept a date as argument
+If no date is provided, it will use today's date as default.
+
+
+When you start your day, use `begin` to create your note for today.
+At the end of the day, use `end` to save your notes sections and commit to git.
 
 #### Examples:
 ```bash
 # Create a new note with the current date
-./note-begin
+note begin
 
 # Create a new note for next friday
-./note-begin 'next friday'
+note begin 'next friday'
 ```
 
 When you are done taking notes for the day, use `end` to save your notes and extract some sections for the next day.
 ```bash
-./note-end
+note end
 ```
 
 ### Sections
@@ -66,20 +89,19 @@ Keep
 For safe keeping
 ```
 
-Sections are saved when you use `./note-end` to complete your notes for the day.
+Sections are saved when you use `note end` to complete your notes for the day.
 
 ### Useful tips
-* To quickly open yesterday's note, simply run `./note-yesterday`
-* Same goes for tomorrow's note, simply run `./note-tomorrow`
-* To create a note without updating or syncing your files, use `./note-new`
-* To open a note without creating a new file and adding sections to it, use `./note-open`
+* To create a note without updating or syncing your files, use `note new`
+* To open a note without creating a new file and adding sections to it, use `note open`
+* To quickly open yesterday's note, simply run `note open yesterday`
 * All scripts that open notes accept a date as an argument to open the note file of that day.
-    * `./note-open 'today'` (same as `./note-open`)
-    * `./note-new 'last tuesday'`
-    * `./note-tomorrow 'last sunday'` (kinda dumb but it works :shrug:)
-    * `./note-yesterday 'next monday'` (kinda dumb but it works :shrug:)
+    * `note open 'today'` (same as `./note-open`)
+    * `note new 'last tuesday'`
+    * `note open 'last sunday'`
+    * `note new 'next monday'`
 
-## Permissions
+## Permissions (Deno)
 This project need to be able to read and write files. For convenience, the `$HOME` environment variable is also needed.
 
 Theses 3 flags are needed to use `daily-notes`:

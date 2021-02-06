@@ -63,4 +63,4 @@ cp "${rootFolder}/.template.md" "${noteFolder}/.template.md"
 
 echo 'Setup completed!'
 echo ''
-echo "Add this to your .bashrc 'export PATH=\"\${PATH}:${rootFolder}\"'"
+echo "Add this to your .bashrc &/or .zshrc 'export PATH=\"\${PATH}:${rootFolder}\"'"
