@@ -1,0 +1,19 @@
+#!/bin/bash
+
+
+# Attempt at calling old scripts
+command=$1
+if [[ \
+    "${command}" == 'begin' || \
+    "${command}" == 'end' || \
+    "${command}" == 'new' || \
+    "${command}" == 'open' \
+ ]]; then
+    shift
+    note-$command "$@"
+    exit 1
+fi
+
+# If nothing is specified, auto start & end a daily note
+note-begin today
+note-end today

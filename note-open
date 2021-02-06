@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "note open command: '$0 $@'"
 required_date="${1:-today}"
 
 initialLocation="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -28,7 +29,7 @@ then
 else
 
     echo "Editing file ${filePath}"
-    $EDITOR "${filePath}"
+    ${EDITOR} "${filePath}"
 fi
 
 

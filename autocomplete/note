@@ -1,0 +1,95 @@
+#compdef _test_node_zshcomplete note
+#!/bin/bash
+
+
+# this line registers our custom autocompletion function to be invoked
+# when completing arguments to the repo command
+#complete -F _test_node_bashcomplete note
+#compdef _test_node_zshcomplete note
+
+# Only works in bash, using this in zsh will not work with partial words (`note aaa bb<Tab>` doesn't work)
+_test_node_bashcomplete() {
+    rootFolder="$(note-folder)"
+    COMPREPLY+=('----------------------------')
+    COMPREPLY+=('3='${3})
+    COMPREPLY+=('2='${2})
+
+    #local target
+    #local file
+
+    #target="$rootFolder/notes"
+    #if [[ ${#COMP_WORDS[@]} == 1 ]]; then
+    #    target="$rootFolder/notes/${COMP_WORDS[COMP_CWORD]}"
+    #elif [[ ${#COMP_WORDS[@]} == 2 ]]; then
+    #    target="$rootFolder/notes/${COMP_WORDS[COMP_CWORD-1]}/${COMP_WORDS[COMP_CWORD]}"
+    #elif [[ ${#COMP_WORDS[@]} == 3 ]]; then
+    #    target="$rootFolder/notes/${COMP_WORDS[COMP_CWORD-2]}/${COMP_WORDS[COMP_CWORD-1]}/${COMP_WORDS[COMP_CWORD]}"
+    #fi
+    #
+    #if [[ -d $target ]]; then
+    #    for file in $(ls $target); do
+    #        if [[ -f $target/$file ]]; then
+    #            COMPREPLY+=( $(basename "$file" | cut -f 1 -d '.') )
+    #        else
+    #            COMPREPLY+=( $(basename "$file") )
+    #        fi
+    #    done
+    #fi
+
+
+}
+
+
+_test_node_zshcomplete() {
+    rootFolder="$(note-folder)"
+
+    local -a COMPREPLY
+    local target
+    target=$rootFolder/notes/
+
+    # Marche pas ce bout la, il se souviens de la derier valeur utiliser
+    # Marche pas, il ne check pas pour les truc incomplet
+    #_arguments -C \
+    #  '1:category:->category' \
+    #  '2:sub-category:->sub_category' \
+    #  '*:: :->args' \
+    #&& ret=0
+
+    #if [[ ! -z $line[1] ]]; then
+    #    category='/'$line[1]
+    #fi
+
+    #if [[ ! -z $line[2] ]]; then
+    #    sub_category='/'$line[2]
+    #fi
+
+    target=$rootFolder/notes$category$sub_category
+
+    COMPREPLY+=('-- zsh ----------------------------')
+    COMPREPLY+=('target='$target)
+    COMPREPLY+=('category='$category)
+    COMPREPLY+=('sub_category='$sub_category)
+    compadd -a COMPREPLY
+
+    local file
+    if [[ -d $target ]]; then
+        for file in $(ls $target); do
+            if [[ -f $target/$file ]]; then
+                COMPREPLY+=( $(basename "$file" | cut -f 1 -d '.') )
+            else
+                COMPREPLY+=( $(basename "$file") )
+            fi
+        done
+    else
+        for file in $target*; do
+            if [[ -f $target/$file ]]; then
+                COMPREPLY+=( $(basename "$file" | cut -f 1 -d '.') )
+            else
+                COMPREPLY+=( $(basename "$file") )
+            fi
+        done
+
+    fi
+
+
+}
