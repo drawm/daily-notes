@@ -1,14 +1,19 @@
-#compdef _test_node_zshcomplete note
+#compdef _note_zshcomplete note
+
+
+
+
+#compdef _note_category_zshcomplete _note_subcategory_zshcomplete note
 #!/bin/bash
 
 
 # this line registers our custom autocompletion function to be invoked
 # when completing arguments to the repo command
-#complete -F _test_node_bashcomplete note
-#compdef _test_node_zshcomplete note
+#complete -F _test_note_bashcomplete note
+#compdef _test_note_zshcomplete note
 
 # Only works in bash, using this in zsh will not work with partial words (`note aaa bb<Tab>` doesn't work)
-_test_node_bashcomplete() {
+_test_note_bashcomplete() {
     rootFolder="$(note-folder)"
     COMPREPLY+=('----------------------------')
     COMPREPLY+=('3='${3})
@@ -40,7 +45,19 @@ _test_node_bashcomplete() {
 }
 
 
-_test_node_zshcomplete() {
+_note_subcategory_zshcomplete() {
+    local -a COMPREPLY
+    COMPREPLY+=("-- _note_category_zshcomplete = $line --")
+    compadd -a COMPREPLY
+}
+_note_category_zshcomplete() {
+    local -a COMPREPLY
+    COMPREPLY+=("-- _note_category_zshcomplete = $line --")
+    compadd -a COMPREPLY
+}
+
+
+_note_zshcomplete() {
     rootFolder="$(note-folder)"
 
     local -a COMPREPLY

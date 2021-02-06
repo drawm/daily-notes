@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Usage
+# $ note [category [sub-category]] note-name
+# Notes are stored in our daily-note data folder specified during setup
+# Find out the path to your notes using the `note-folder` command
+# This script will autocomplete category & sub-category based on your notes folder structure
+
+# Warnign: Only works in bash, ZSH will not work with partial words (ex: `note aaa bb<Tab>`)
+_note_bashcomplete() {
+    rootFolder="$(note-folder)"
+
+    local target
+    local file
+
+    target=""
+    arg_count=0
+    while (( $arg_count < ${#COMP_WORDS[@]}-1 )) #-1 to skip command name
+    do
+        target="/${COMP_WORDS[COMP_CWORD-arg_count]}$target"
+        ((arg_count++))
+    done
+    target="$rootFolder/notes$target"
+
+
+    if [[ -d $target ]]; then
+        # Target is a directory, inspect what is inside it
+        for file in $(ls $target); do
+            if [[ -f $target/$file ]]; then
+                COMPREPLY+=( "$(basename "$file" | cut -f 1 -d '.')" )
+            else
+                COMPREPLY+=( "$(basename "$file")" )
+            fi
+        done
+    else
+        # Treat the path as incomplete and look for a valid directory or file
+        for file in $target*; do
+            if [[ -f $file ]]; then
+                COMPREPLY+=( "$(basename "$file" | cut -f 1 -d '.')" )
+            else
+                COMPREPLY+=( "$(basename "$file")" )
+            fi
+        done
+    fi
+}
+
+complete -F _note_bashcomplete note
