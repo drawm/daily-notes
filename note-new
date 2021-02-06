@@ -12,7 +12,7 @@ if [ -z $rootFolder ]; then
 fi
 
 formated_date="$( gnudate -d "${required_date}" +'%Y-%m-%d' )"
-noteFolderLocation="${rootFolder}/notes"
+noteFolderLocation="${rootFolder}/journal"
 
 filePath="${noteFolderLocation}/${formated_date}.md"
 

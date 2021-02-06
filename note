@@ -51,7 +51,7 @@ if [[ ! -z "$(git diff "$file_path")" ]]; then
     # The file was changed, commit it to git
     pushd $rootFolder
         git add "$file_path"
-        git commit
+        git commit "$file_path"
         git push origin
     popd
 else
