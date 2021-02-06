@@ -1,0 +1,72 @@
+#!/bin/bash
+
+required_date="${1:-today}"
+
+initialLocation="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+rootFolder="$( cat "${initialLocation}/.noteFolderPath")"
+
+
+# Proceed to create a new wiki entry
+if [[ $# == 3 ]]; then
+    category="/$1"
+    shift
+fi
+
+if [[ $# == 2 ]]; then
+    sub_category="/$1"
+    shift
+fi
+
+if [[ $# == 1 ]]; then
+    note_name="$1"
+    file_name="/$note_name.md"
+    shift
+fi
+
+file_path="${rootFolder}/wiki${category}${sub_category}${file_name}"
+
+mkdir -p $(dirname $file_path)
+
+
+# Create new file if it doesn't exist
+is_new_file=0
+if [[ ! -f $file_path ]]; then
+    is_new_file=1
+    echo "$note_name" >> "$file_path"
+    echo "===" >> "$file_path"
+    echo ": Quick TLDR" >> "$file_path"
+    echo "" >> "$file_path"
+    echo "---" >> "$file_path"
+    echo "* [Header](#header)" >> "$file_path"
+    echo "---" >> "$file_path"
+    echo "# Header {#header}" >> "$file_path"
+    echo "Content here" >> "$file_path"
+fi
+
+
+# Stage the file to git so we can see if it changed once the user is done editing
+pushd $rootFolder
+    git add "$file_path"
+popd
+
+# Edit the file
+echo "Editing file ${file_path}"
+${EDITOR} "$file_path"
+
+if [[ ! -z "$(git diff "$file_path")" ]]; then
+    # The file was changed, commit it to git
+    pushd $rootFolder
+        git add "$file_path"
+        git commit "$file_path"
+        git push origin
+    popd
+else
+    # File wasn't changed, either cleanup or exit
+    if [[ $is_new_file == 1 ]]; then
+        echo "Removing file '$file_path' as it was left unchanged from its default template"
+        rm -f "$file_path"
+        git add "$file_path"
+    else
+        echo "No change detected for file '$file_path'"
+    fi
+fi
