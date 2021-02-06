@@ -5,8 +5,31 @@ required_date="${1:-today}"
 initialLocation="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 rootFolder="$( cat "${initialLocation}/.noteFolderPath")"
 
+action='note'
+if [[ $1 == '--list' ||  $1 == '-l' ]]; then
+    action='list'
+    shift
 
-# Proceed to create a new note
+    # Gather arguments
+    if [[ $# == 2 ]]; then
+        category="$1/"
+        shift
+    fi
+
+    if [[ $# == 1 ]]; then
+        sub_category="$1/"
+        shift
+    fi
+
+    pushd ${rootFolder}/notes
+    file_path="${category}${sub_category}"
+
+    tree -d $file_path
+    popd
+    exit 0
+fi
+
+# Gather arguments
 if [[ $# == 3 ]]; then
     category="/$1"
     shift
@@ -41,26 +64,26 @@ fi
 # Stage the file to git so we can see if it changed once the user is done editing
 pushd $rootFolder
     git add "$file_path"
-popd
 
-# Edit the file
-echo "Editing file ${file_path}"
-${EDITOR} "$file_path"
+    # Edit the file
+    echo "Editing file ${file_path}"
+    ${EDITOR} "$file_path"
 
-if [[ ! -z "$(git diff "$file_path")" ]]; then
-    # The file was changed, commit it to git
-    pushd $rootFolder
-        git add "$file_path"
-        git commit "$file_path"
-        git push origin
-    popd
-else
-    # File wasn't changed, either cleanup or exit
-    if [[ $is_new_file == 1 ]]; then
-        echo "Removing file '$file_path' as it was left unchanged from its default template"
-        rm -f "$file_path"
-        git add "$file_path"
+    if [[ ! -z "$(git diff "$file_path")" ]]; then
+        # The file was changed, commit it to git
+        pushd $rootFolder
+            git add "$file_path"
+            git commit "$file_path"
+            git push origin
+        popd
     else
-        echo "No change detected for file '$file_path'"
+        # File wasn't changed, either cleanup or exit
+        if [[ $is_new_file == 1 ]]; then
+            echo "Removing file '$file_path' as it was left unchanged from its default template"
+            rm -f "$file_path"
+            git add "$file_path"
+        else
+            echo "No change detected for file '$file_path'"
+        fi
     fi
-fi
+popd
