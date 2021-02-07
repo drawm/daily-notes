@@ -6,7 +6,6 @@
 # Only works in bash, using this in zsh will not work with partial words (`note aaa bb<Tab>` doesn't work)
 _note_bashcomplete() {
     rootFolder="$(note-folder)"
-    COMPREPLY+=('#COMP_WORDS[@]='${#COMP_WORDS[@]})
 
     local target
     local file
@@ -16,41 +15,24 @@ _note_bashcomplete() {
     while (( $arg_count < ${#COMP_WORDS[@]}-1 )) #-1 to remove cmd name
     do
         target="/${COMP_WORDS[COMP_CWORD-arg_count]}$target"
-        #COMPREPLY+=("arg_count=$arg_count length=$((${#COMP_WORDS[@]}-2)) arg=${COMP_WORDS[COMP_CWORD-arg_count]}")
         ((arg_count++))
     done
     target="$rootFolder/notes$target"
 
-    #if [[ ${#COMP_WORDS[@]} == 0 ]]; then
-    #    target="$rootFolder/notes/${2}"
-    #elif [[ ${#COMP_WORDS[@]} == 1 ]]; then
-    #    target="$rootFolder/notes/${COMP_WORDS[COMP_CWORD-2]}/${COMP_WORDS[COMP_CWORD-1]}"
-    #elif [[ ${#COMP_WORDS[@]} == 2 ]]; then
-    #    target="$rootFolder/notes/${COMP_WORDS[COMP_CWORD-3]}/${COMP_WORDS[COMP_CWORD-2]}/${COMP_WORDS[COMP_CWORD-1]}"
-    #fi
-    #COMPREPLY+=('----------------------------')
-    #COMPREPLY+=('target='${target})
-    #COMPREPLY+=('word0='${COMP_WORDS[COMP_CWORD-0]})
-    #COMPREPLY+=('word1='${COMP_WORDS[COMP_CWORD-1]})
-    #COMPREPLY+=('word2='${COMP_WORDS[COMP_CWORD-2]})
-    #COMPREPLY+=('word3='${COMP_WORDS[COMP_CWORD-3]})
-    COMPREPLY+=('----------------------------')
-    COMPREPLY+=($(dirname $target))
-
     if [[ -d $target ]]; then
         for file in $(ls $target); do
             if [[ -f $target/$file ]]; then
-                COMPREPLY+=( "dirsearch trimext $(basename "$file" | cut -f 1 -d '.')" )
+                COMPREPLY+=( $(basename "$file" | cut -f 1 -d '.') )
             else
-                COMPREPLY+=( "dirsearch subdir $(basename "$file")" )
+                COMPREPLY+=( $(basename "$file") )
             fi
         done
     else
         for file in $target*; do
             if [[ -f $file ]]; then
-                COMPREPLY+=( "partialsearch trimext $(basename "$file" | cut -f 1 -d '.')" )
+                COMPREPLY+=( $(basename "$file" | cut -f 1 -d '.') )
             else
-                COMPREPLY+=( "partialsearch subdir $(basename "$file")" )
+                COMPREPLY+=( $(basename "$file") )
             fi
         done
     fi
