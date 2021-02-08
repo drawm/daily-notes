@@ -6,7 +6,7 @@ Low tech note taking ~application~ scripts
 ### Requirements:
 Should work on most "standard" linux distro
 * `git`
-* `gnu date`
+* `gnu date` (For MacOS, get gnudate via `brew install coreutils`)
 * `awk`
 * A text editor (`EDITOR` environment variable need to be set)
 * `bash` or `zsh` for autocompletion
