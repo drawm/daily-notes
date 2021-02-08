@@ -1,0 +1,10 @@
+#!/bin/bash
+
+note_type="note"
+note_category="${1}"
+note_sub_category="${2}"
+note_name="${3}"
+
+echo "$note_name"
+echo "==="
+echo "> Created '$(date)' by $(whoami)"

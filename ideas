@@ -30,4 +30,4 @@ if [[ $# == 1 ]]; then
     shift
 fi
 
-$INITIAL_LOCATION/scripts/quick-note.sh 'wiki' "${category}" "${sub_category}" "${note_name}"
+$INITIAL_LOCATION/scripts/quick-note.sh 'idea' "${category}" "${sub_category}" "${note_name}"
