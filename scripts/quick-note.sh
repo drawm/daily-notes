@@ -55,7 +55,7 @@ pushd $ROOT_FOLDER
         # The file was changed, commit it to git
         git add "$file_path"
 
-        local commit_message
+        commit_message=''
         if [[ $is_new_file == 1 ]]; then
             commit_message = "File created using '${note_type} ${category} ${sub_category} ${note_name}', @$(date) by $(whoami)"
         else
