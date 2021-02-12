@@ -57,9 +57,9 @@ pushd $ROOT_FOLDER
 
         commit_message=''
         if [[ $is_new_file == 1 ]]; then
-            commit_message = "File created using '${note_type} ${category} ${sub_category} ${note_name}', @$(date) by $(whoami)"
+            commit_message="File created using '${note_type} ${category} ${sub_category} ${note_name}', @$(date) by $(whoami)"
         else
-            commit_message = "File changed using '${note_type} ${category} ${sub_category} ${note_name}', @$(date) by $(whoami)"
+            commit_message="File changed using '${note_type} ${category} ${sub_category} ${note_name}', @$(date) by $(whoami)"
         fi
         git commit "$file_path" -m "$commit_message"
 
