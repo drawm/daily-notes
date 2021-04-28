@@ -1,0 +1,33 @@
+#!/bin/bash
+
+INITIAL_LOCATION="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+print_usage () {
+    echo "Usage:"
+    echo "$PWD/$(basename $0) [category [sub-category]] name"
+}
+
+# Process arguments
+if [[ $# == 0 ]]; then
+    echo "Can't create a note without name"
+    echo ""
+    print_usage
+    exit 1
+fi
+
+if [[ $# == 3 ]]; then
+    category="$1"
+    shift
+fi
+
+if [[ $# == 2 ]]; then
+    sub_category="$1"
+    shift
+fi
+
+if [[ $# == 1 ]]; then
+    note_name="$1"
+    shift
+fi
+
+$INITIAL_LOCATION/scripts/quick-note.sh 'project' "${category}" "${sub_category}" "${note_name}"

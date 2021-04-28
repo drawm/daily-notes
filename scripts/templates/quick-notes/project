@@ -1,0 +1,35 @@
+#!/bin/bash
+
+note_type="idea"
+note_category="${1}"
+note_sub_category="${2}"
+note_name="${3}"
+
+echo "$note_name"
+echo "==="
+echo ": Quick TLDR"
+echo ""
+echo "---"
+echo "* [Summary](#summary)"
+echo "** [Why](#why)"
+echo "** [Goal](#goal)"
+echo "* [Steps](#steps)"
+echo "---"
+
+echo "# Summary {#summary}"
+echo "Summary of the projects"
+
+echo "## Why {#why}"
+echo "Why am I doing this?"
+
+echo "## Goal {#goal}"
+echo "What I wan to achieve (aka acceptance criteria)"
+
+echo "# Steps {#steps}"
+
+echo "## Preparation"
+echo "List of requirements & prep work"
+
+echo "## Development"
+echo "### Step 2"
+echo "### Step 1"
