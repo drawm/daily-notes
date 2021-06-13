@@ -1,0 +1,12 @@
+{
+  "imports": {
+    "flags": "https://deno.land/std/flags/mod.ts",
+    "asserts": "https://deno.land/std/testing/asserts.ts",
+    "write_json": "./utils/json_file.ts",
+    "read_json": "./utils/json_file.ts",
+    "json_file": "./utils/json_file.ts",
+    "fs": "https://deno.land/std/fs/mod.ts",
+    "omelette": "https://deno.land/x/omelette@0.4.15-2/omelette.ts",
+    "gnudate": "./utils/gnudate.ts"
+  }
+}

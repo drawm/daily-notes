@@ -1,0 +1,7 @@
+{
+    "languageserver":{
+        "deno":{
+            "importMap":"./refactor-2021/import_map.json"
+        }
+    }
+}

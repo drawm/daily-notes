@@ -1,0 +1,3 @@
+#!/bin/bash
+
+deno run --import-map refactor-2021/import_map.json --allow-run refactor-2021/journal.ts

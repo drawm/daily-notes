@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+#docker build . -t daily-notes
+docker run \
+  -v $PWD:/daily-notes \
+  daily-notes  \
+  test  \
+  --import-map ./src/import_map.json \
+  --allow-env  \
+  --allow-read  \
+  --allow-write  \
+  --unstable

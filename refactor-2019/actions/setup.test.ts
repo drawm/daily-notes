@@ -1,9 +1,7 @@
 import { exists } from "https://deno.land/std/fs/exists.ts";
-import { readFileStr } from "https://deno.land/std/fs/read_file_str.ts";
-import { readJson } from "https://deno.land/std/fs/read_json.ts";
 import { ensureFile } from "https://deno.land/std/fs/ensure_file.ts";
 import { ensureDir } from "https://deno.land/std/fs/ensure_dir.ts";
-import { assertEquals, assert, assertThrowsAsync } from "https://deno.land/std/testing/asserts.ts";
+import { assert, assertThrowsAsync } from "https://deno.land/std/testing/asserts.ts";
 import setup from './setup.ts';
 
 
@@ -27,7 +25,7 @@ Deno.test('should create base template file', async ()=>{
   await setup(dirName, {quiet:true});
 
   assert(await exists(`${dirName}/.template.md`), "Base template was not added to note directory");
-  assert(await readFileStr(`${dirName}/.template.md`), "New base template should not be empty");
+  assert(await Deno.readTextFile(`${dirName}/.template.md`), "New base template should not be empty");
 
 });
 
@@ -43,7 +41,7 @@ Deno.test('should create base config file', async ()=>{
   assert(await exists(`${homeDirectory}/.config/daily-notes/config`), `Base config was not found at ${fileName}`);
   assert(await exists(fileName), `Base config was not found at ${fileName}`);
 
-  const rawConfig = await readFileStr(fileName); 
+  const rawConfig = await Deno.readTextFile(fileName);
   assert(rawConfig , `New base config should not be empty (${fileName} = '${rawConfig}')`);
 });
 

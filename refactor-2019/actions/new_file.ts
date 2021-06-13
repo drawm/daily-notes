@@ -1,7 +1,5 @@
-import { parse } from "https://deno.land/std/flags/mod.ts";
 import loadConfig from "../config/mod.ts";
-import { exists } from "https://deno.land/std/fs/exists.ts";
-import { ensureDir } from "https://deno.land/std/fs/ensure_dir.ts";
+import { exists, ensureDir } from "https://deno.land/std/fs/mod.ts";
 
 const config = await loadConfig();
 const noteFileName = config._[0] ?? "today";

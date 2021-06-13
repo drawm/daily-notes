@@ -1,8 +1,5 @@
 import { ensureFile } from "https://deno.land/std/fs/ensure_file.ts";
-import { readFileStr } from "https://deno.land/std/fs/read_file_str.ts";
-import { writeFileStr } from "https://deno.land/std/fs/write_file_str.ts";
-import { readJson } from "https://deno.land/std/fs/read_json.ts";
-import { writeJson } from "https://deno.land/std/fs/write_json.ts";
+import { writeJson } from "json_file";
 
 const HOME_FOLDER = Deno.env.get("HOME");
 const DEFAULT_PATH_TO_CONFIG = HOME_FOLDER + `/.config/daily-notes/config`;
@@ -31,7 +28,7 @@ export async function load(): Promise<AppConfig> {
     );
   }
 
-  const rawConfig = await readFileStr(DEFAULT_PATH_TO_CONFIG);
+  const rawConfig = await Deno.readTextFile(DEFAULT_PATH_TO_CONFIG);
   if (rawConfig === "") {
     throw new Error(
       `config file @ ${DEFAULT_PATH_TO_CONFIG} is empty, run 'note-setup' to override it`,
@@ -59,9 +56,9 @@ async function ensureFileWithDefault(
 ): Promise<void> {
   await ensureFile(path);
 
-  const rawConfig = await readFileStr(path);
+  const rawConfig = await Deno.readTextFile(path);
   if (rawConfig === "") {
-    return writeFileStr(path, content);
+    return Deno.writeTextFile(path, content);
   }
 }
 
