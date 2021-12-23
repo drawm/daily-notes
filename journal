@@ -19,7 +19,7 @@ fi
 
 # Save start date to be able to close later without issues
 start_date="$(gnudate -d 'today')"
-if [[ $# == 0 ]]; then
+if [[ ! -z ${1} ]]; then
     start_date="$(gnudate -d "${1}")"
     shift
 fi
