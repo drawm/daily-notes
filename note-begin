@@ -2,8 +2,8 @@
 
 initialLocation="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-. ${initialLocation}/note-sync
+${initialLocation}/note-sync
 
 document_date="${1:-today}"
 
-. ${initialLocation}/note-new "${document_date}"
+${initialLocation}/note-new "${document_date}"

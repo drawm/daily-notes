@@ -22,7 +22,7 @@ sections=$(cat "${rootFolder}/.sections")
 if [[ ! -z $sections ]]; then
   for section in $sections; do
     # Save section for next day
-    . "${initialLocation}/scripts/saveSection.sh" "${filePath}" "${section}" > ".section.${section}.md"
+    "${initialLocation}/scripts/saveSection.sh" "${filePath}" "${section}" > ".section.${section}.md"
     git add ".section.${section}.md"
   done
 fi
